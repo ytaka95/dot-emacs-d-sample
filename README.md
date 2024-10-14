@@ -5,23 +5,50 @@
 ## 前提
 
 - Emacsのバージョンは28以上
-- 本手順書は外部パッケージのインストールにおいて macOS (Homebrew) の利用を想定しているが、読み替えることで設定自体は他OSでも利用可能
+    - Linuxのapt等では最新バージョンが入らないためソースからのビルドを推奨する（参考: [Ubuntuで最新リリースのEmacsをインストールする | らくだのテックブログ](https://rkd3.dev/post/emacs-ubuntu-install/)）
+- 本手順書は外部パッケージのインストールにおいて macOS (Homebrew) と Ubuntu (apt) の利用を想定しているが、読み替えることで設定自体は他OSでも利用可能。詳しくは各公式ドキュメントを参照のこと。
 
 ## 事前準備
 
-以下の外部パッケージをインストールする必要がある。対象の言語を扱わない場合は不要。
+以下の外部パッケージをインストールする必要がある。ただし対象の言語 (Python, Terraform) を扱わない場合はそれぞれの準備は不要である。
 
 ### Python
 
+参考: [python-lsp/python-lsp-server | GitHub](https://github.com/python-lsp/python-lsp-server?tab=readme-ov-file#installation)
+
+#### Macの場合
+
 ```sh
 brew install python-lsp-server
-brew install python-lsp-ruff
+```
+
+#### Ubuntuの場合
+
+```sh
+sudo apt install python3-pylsp
 ```
 
 ### Terraform
 
+参考: [hashicorp/terraform-ls | GitHub](https://github.com/hashicorp/terraform-ls/blob/main/docs/installation.md)
+
+#### Macの場合
+
 ```sh
 brew install hashicorp/tap/terraform-ls
+```
+
+#### Ubuntuの場合
+
+参考: [Official Packaging Guide | HashiCorp](https://www.hashicorp.com/official-packaging-guide)
+
+```sh
+sudo apt update && sudo apt install gpg
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update
+sudo apt install terraform-ls
 ```
 
 ## 使い方
@@ -50,7 +77,6 @@ init.el を ~/.emacs.d/ に保存し、Emacsを起動する。初回起動時は
 - json-mode
 - dockerfile-mode
 - python-mode
-    - flymake-ruff
 - terraform-mode
 
 ## 上書きしているキーバインド

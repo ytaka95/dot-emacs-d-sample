@@ -8,8 +8,9 @@
 (fido-vertical-mode +1)
 
 ;; テーマを設定 (https://pawelbx.github.io/emacs-theme-gallery/)
-;; (load-theme 'tango t)
-(load-theme 'tango-dark t)
+(if window-system
+    ;; (load-theme 'tango t)
+    (load-theme 'tango-dark t))
 
 ;; use-package
 (eval-when-compile
@@ -83,11 +84,3 @@
   ;;               (add-hook 'before-save-hook
   ;;                         'eglot-format-buffer nil t)))
 )
-
-;; Linter for Python
-(use-package flymake-ruff
-  :ensure t
-  :hook
-  (eglot-managed-mode-hook . python-mode)
-  :config
-  (setq flymake-ruff--default-configs '("ruff.toml" ".ruff.toml")))
